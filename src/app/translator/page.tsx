@@ -2,21 +2,7 @@
 
 import { useState } from "react";
 
-const LANGUAGES = [
-  { code: "en", label: "Englisch" },
-  { code: "de", label: "Deutsch" },
-  { code: "fr", label: "Französisch" },
-  { code: "es", label: "Spanisch" },
-  { code: "it", label: "Italienisch" },
-  { code: "nl", label: "Niederländisch" },
-  { code: "pl", label: "Polnisch" },
-  { code: "pt", label: "Portugiesisch" },
-  { code: "zh", label: "Chinesisch" },
-];
-
 export default function TranslatorPage() {
-  const [sourceLang, setSourceLang] = useState("en");
-  const [targetLang, setTargetLang] = useState("de");
   const [sourceText, setSourceText] = useState("");
   const [translatedText, setTranslatedText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,8 +21,7 @@ export default function TranslatorPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           text: sourceText,
-          sourceLang,
-          targetLang,
+          targetLang: "de",
         }),
       });
 
@@ -69,19 +54,9 @@ export default function TranslatorPage() {
         className="w-full border border-gray-300 rounded p-3 text-sm resize-none bg-gray-50 mb-4"
       />
 
-      {/* Quellsprache - Eingabe unten */}
-      <div className="mb-1 flex items-center gap-3">
-        <select
-          value={sourceLang}
-          onChange={(e) => setSourceLang(e.target.value)}
-          className="border border-gray-300 rounded px-3 py-2 bg-white text-sm"
-        >
-          {LANGUAGES.filter((l) => l.code !== "de").map((l) => (
-            <option key={l.code} value={l.code}>
-              {l.label}
-            </option>
-          ))}
-        </select>
+      {/* Quelltext - Eingabe unten */}
+      <div className="mb-1">
+        <span className="text-sm font-medium text-gray-700">Ausgangstext (Sprache wird automatisch erkannt)</span>
       </div>
       <textarea
         value={sourceText}
